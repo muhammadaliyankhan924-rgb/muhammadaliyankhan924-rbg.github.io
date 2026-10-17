@@ -1,169 +1,364 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Learn how to maintain your computer with practical tips for updates, storage, security, backups, cleaning, overheating and troubleshooting.">
   <title>How to Maintain Your Computer: 10 Easy Tips | TechNova Guide</title>
-  <meta name="description" content="Learn 10 practical ways to maintain your computer, improve performance, protect your files, and keep your Windows PC running smoothly.">
   <style>
     * { box-sizing: border-box; }
     body {
       margin: 0;
       font-family: Arial, sans-serif;
-      background: #f4f7fb;
-      color: #263248;
-      line-height: 1.85;
+      line-height: 1.8;
+      color: #263244;
+      background: #f5f7fb;
     }
     header {
-      background: #101a35;
+      background: #14213d;
+      color: white;
       padding: 22px 16px;
-      text-align: center;
     }
-    header a {
+    nav, main, footer {
+      max-width: 900px;
+      margin: auto;
+    }
+    nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    nav a {
       color: white;
       text-decoration: none;
-      font-size: 25px;
-      font-weight: bold;
+      margin-right: 12px;
     }
+    .brand { font-size: 22px; font-weight: bold; }
     main {
-      max-width: 850px;
-      margin: 35px auto;
-      padding: 32px;
       background: white;
-      border-radius: 14px;
-      box-shadow: 0 5px 24px #17203312;
+      margin: 28px auto;
+      padding: 28px;
+      border-radius: 12px;
+      box-shadow: 0 3px 15px rgba(0,0,0,.05);
     }
-    h1, h2 { color: #173b78; line-height: 1.4; }
-    h1 { font-size: 32px; }
-    h2 { margin-top: 30px; font-size: 23px; }
+    h1, h2, h3 { color: #14213d; line-height: 1.4; }
+    h1 { font-size: 34px; }
+    h2 {
+      margin-top: 34px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid #e5eaf2;
+    }
+    a { color: #175cd3; }
     .intro {
-      background: #edf4ff;
-      border-left: 4px solid #1769d2;
+      font-size: 18px;
+      color: #475467;
+    }
+    .note {
+      background: #eef5ff;
       padding: 16px;
-      border-radius: 6px;
+      border-left: 4px solid #175cd3;
+      border-radius: 5px;
     }
-    .back {
-      display: inline-block;
-      margin-top: 25px;
-      padding: 11px 18px;
-      background: #1769d2;
-      color: white;
-      text-decoration: none;
-      border-radius: 8px;
-    }
+    .checklist li { margin-bottom: 8px; }
     footer {
+      padding: 24px 16px;
       text-align: center;
-      padding: 22px;
-      color: #667085;
+      color: #596579;
     }
+    footer a { margin: 0 8px; }
     @media (max-width: 600px) {
-      main { margin: 18px 10px; padding: 22px; }
-      h1 { font-size: 27px; }
+      main { margin: 12px; padding: 19px; }
+      h1 { font-size: 28px; }
+      nav { align-items: flex-start; }
     }
   </style>
 </head>
 <body>
-  <header>
-    <a href="index.html">TechNova Guide</a>
-  </header>
 
-  <main>
-    <h1>How to Maintain Your Computer: 10 Easy Tips</h1>
-    <p><em>A beginner-friendly guide to keeping your computer clean, safe, and reliable.</em></p>
-
-    <div class="intro">
-      Your computer does not always need expensive upgrades to work well. Regular maintenance, safe browsing, and a few simple habits can help improve reliability and prevent common problems.
+<header>
+  <nav>
+    <a class="brand" href="index.html">TechNova Guide</a>
+    <div>
+      <a href="index.html">Home</a>
+      <a href="index.html#articles">Articles</a>
+      <a href="about.html">About</a>
+      <a href="contact.html">Contact</a>
     </div>
+  </nav>
+</header>
 
-    <h2>1. Keep Your Operating System Updated</h2>
-    <p>Operating system updates often include security fixes, bug fixes, and improvements. On Windows, open Settings and look for Windows Update. Review available updates and install them when convenient. Save your work before restarting.</p>
+<main>
+  <p><a href="index.html">Home</a> &rsaquo; Computer Guides</p>
 
-    <h2>2. Remove Apps You No Longer Use</h2>
-    <p>Unused programs take up storage space and some may run in the background. Open Settings, go to Apps, and review your installed applications. Uninstall only programs you recognize and no longer need. Avoid removing drivers or unfamiliar system components.</p>
+  <h1>How to Maintain Your Computer: 10 Easy Tips</h1>
 
-    <h2>3. Manage Startup Applications</h2>
-    <p>Some applications automatically launch when Windows starts. Too many startup apps can make sign-in slower. Open Task Manager and select Startup apps. Disable applications you do not need at startup, but leave security software and important system tools enabled.</p>
+  <p class="intro">
+    Regular computer maintenance can help reduce common problems such
+    as slow performance, low storage, overheating and unexpected errors.
+    These practical tips are suitable for beginners.
+  </p>
 
-    <h2>4. Keep Enough Free Storage Space</h2>
-    <p>A drive that is nearly full can make updates and everyday tasks harder. Review large downloads, old videos, and duplicate files. Use Windows Storage settings or Disk Cleanup to identify removable files. Check your selections carefully before deleting anything.</p>
+  <p>
+    You do not need to be a computer expert to look after your PC.
+    Start with simple tasks, protect your important files and make changes
+    carefully. Menu names may vary depending on your operating system.
+  </p>
 
-    <h2>5. Protect Your Computer From Malware</h2>
-    <p>Keep Windows Security or another reputable security product enabled and updated. Scan suspicious files, avoid pirated software, and do not open unexpected email attachments. Never disable your protection just because a website tells you to.</p>
+  <h2>1. Keep Your Operating System Updated</h2>
+  <p>
+    Updates often include security improvements, bug fixes and other
+    important changes.
+  </p>
+  <ol>
+    <li>Open Windows Settings.</li>
+    <li>Select Windows Update.</li>
+    <li>Choose Check for updates.</li>
+    <li>Install available updates and restart if required.</li>
+  </ol>
+  <p>Save your work before restarting. Check whether your Windows version still receives security updates.</p>
 
-    <h2>6. Back Up Important Files</h2>
-    <p>Hardware failure, accidental deletion, and malware can cause data loss. Back up important documents, photos, and projects to an external drive or a trusted cloud service. For valuable files, keep a separate backup that is not permanently connected to the computer.</p>
+  <h2>2. Remove Apps You No Longer Use</h2>
+  <p>
+    Unnecessary applications can take up storage space and sometimes
+    run in the background.
+  </p>
+  <ol>
+    <li>Open Settings.</li>
+    <li>Select Apps or Installed apps.</li>
+    <li>Review the list of applications.</li>
+    <li>Uninstall programs you recognize and no longer need.</li>
+  </ol>
+  <p>Do not remove unfamiliar system components or drivers just because you do not recognize their names.</p>
 
-    <h2>7. Keep the Computer Physically Clean</h2>
-    <p>Dust can block ventilation and contribute to overheating. Turn the computer off and disconnect its power before cleaning external surfaces. Use a soft, dry cloth and keep vents unobstructed. Do not spray liquid directly onto the computer or open the power supply.</p>
+  <h2>3. Manage Startup Programs</h2>
+  <p>
+    Some applications start automatically with Windows and may slow down
+    startup.
+  </p>
+  <ol>
+    <li>Press Ctrl + Shift + Esc to open Task Manager.</li>
+    <li>Select Startup apps.</li>
+    <li>Review the applications listed.</li>
+    <li>Disable unnecessary apps that you recognize.</li>
+  </ol>
+  <p>Leave security software and essential system components enabled.</p>
 
-    <h2>8. Avoid Overheating</h2>
-    <p>Place a laptop on a hard, flat surface and keep desktop ventilation areas clear. Avoid using a computer on blankets that block air vents. If fans become unusually loud or the computer repeatedly shuts down, investigate the cause rather than ignoring it.</p>
+  <h2>4. Free Up Storage Space</h2>
+  <p>
+    Low storage can make it difficult to save files and install updates.
+    Try these steps:
+  </p>
+  <ul>
+    <li>Check the Recycle Bin before emptying it.</li>
+    <li>Use Windows Settings to review temporary files.</li>
+    <li>Uninstall applications you no longer use.</li>
+    <li>Back up personal files before moving or deleting them.</li>
+  </ul>
+  <p>Never delete important Windows folders manually to free up space.</p>
 
-    <h2>9. Use Strong Passwords</h2>
-    <p>Use a different, strong password for each important account. A reputable password manager can help you create and store them. Enable two-factor authentication wherever possible, and never share one-time verification codes with anyone.</p>
+  <h2>5. Use Reliable Security Protection</h2>
+  <p>
+    Malware can damage files, steal information or interfere with your
+    computer. Keep Windows Security or another reputable security
+    product updated.
+  </p>
+  <ul>
+    <li>Avoid cracked software and suspicious downloads.</li>
+    <li>Be careful with unexpected email attachments.</li>
+    <li>Run a security scan if you suspect an infection.</li>
+    <li>Download software from trusted sources.</li>
+  </ul>
 
-    <h2>10. Restart When Needed</h2>
-    <p>Restarting can finish updates and resolve some temporary software issues. If an application stops responding, save your work when possible and restart the affected application first. Frequent crashes or recurring errors may indicate a problem that needs further troubleshooting.</p>
+  <h2>6. Back Up Important Files</h2>
+  <p>
+    A computer can fail, be lost or become infected. Backups help protect
+    documents, photos and other personal files.
+  </p>
+  <p>
+    You can use an external drive or a reputable cloud storage service.
+    Keep an external backup disconnected when it is not being used,
+    where practical.
+  </p>
+  <div class="note">
+    <strong>Helpful tip:</strong> Open a few backed-up files to confirm
+    that they work. A backup is useful only if your files can be recovered.
+  </div>
 
-    <h2>How Often Should You Maintain Your Computer?</h2>
-    <ul>
-      <li><strong>Weekly:</strong> Review important updates and back up new files.</li>
-      <li><strong>Monthly:</strong> Review unused applications, startup apps, and storage space.</li>
-      <li><strong>Every few months:</strong> Check external vents and clean surfaces as needed.</li>
-    </ul>
+  <h2>7. Clean Your Computer Safely</h2>
+  <p>
+    Dust can collect around vents, fans and keyboards. To clean your
+    computer safely:
+  </p>
+  <ul>
+    <li>Shut down the computer and disconnect power before cleaning.</li>
+    <li>Use a soft, dry microfiber cloth on external surfaces.</li>
+    <li>Follow the manufacturer's instructions for cleaning vents.</li>
+    <li>Keep liquids away from the computer.</li>
+  </ul>
+  <p>
+    Never spray cleaner directly onto the device. If internal cleaning is
+    needed and you are unsure how to do it safely, contact a technician.
+  </p>
 
-<h2>Common Computer Problems and Quick Fixes</h2>
+  <h2>8. Prevent Overheating</h2>
+  <p>
+    Computers need proper airflow to stay cool. Blocked vents and hot
+    surroundings can contribute to overheating.
+  </p>
+  <ul>
+    <li>Place laptops on a hard, flat surface.</li>
+    <li>Keep desktop ventilation areas clear.</li>
+    <li>Avoid placing a computer tightly against a wall.</li>
+    <li>Seek professional help if overheating continues.</li>
+  </ul>
+  <p>Repeated unexpected shutdowns or unusual fan noises may need further investigation.</p>
 
-<h3>1. Computer Is Running Slowly</h3>
-<p>Close programs you are not using, disable unnecessary startup apps, and check whether your computer has enough free storage. Install updates from trusted sources and restart your computer if it has been running for a long time.</p>
+  <h2>9. Protect Your Accounts</h2>
+  <p>
+    Use strong, unique passwords for your computer and online accounts.
+    A password manager can help you store passwords securely.
+  </p>
+  <ul>
+    <li>Enable two-factor authentication when available.</li>
+    <li>Never share passwords or verification codes.</li>
+    <li>Avoid entering login details on suspicious websites.</li>
+  </ul>
 
-<h3>2. Computer Is Running Too Hot</h3>
-<p>Keep your computer on a hard, flat surface and make sure its air vents are not blocked. Turn it off before cleaning the exterior vents. Avoid opening internal components unless you know how to handle them safely.</p>
+  <h2>10. Restart Your Computer When Needed</h2>
+  <p>
+    Restarting can complete updates and resolve some temporary software
+    problems. Save your work before restarting.
+  </p>
+  <p>
+    If an application stops responding or your computer becomes unusually
+    slow, a restart is a useful first step. It will not fix every hardware
+    or software problem.
+  </p>
 
-<h3>3. Storage Space Is Almost Full</h3>
-<p>Use your operating system's built-in storage tools to identify temporary files and unnecessary downloads. Back up important documents before deleting anything, and avoid removing files if you do not know what they are used for.</p>
+  <h2>Common Computer Problems and Quick Fixes</h2>
 
-<h3>4. Computer Takes Too Long to Start</h3>
-<p>Review the apps that launch automatically when your computer starts. Disable only apps you recognize and do not need at startup. Keep essential security software enabled.</p>
+  <h3>My computer is running slowly. What should I do?</h3>
+  <p>
+    Close unnecessary applications, check available storage, review
+    startup programs and install relevant updates. If the problem
+    continues, run a security scan and investigate which applications
+    are using system resources.
+  </p>
 
-<h2>Computer Maintenance Checklist</h2>
-<ul>
-  <li>Install operating system and software updates.</li>
-  <li>Check available storage space.</li>
-  <li>Review startup apps and uninstall unused programs.</li>
-  <li>Run a security scan using trusted security software.</li>
-  <li>Back up important files.</li>
-  <li>Keep the computer's air vents clean and unobstructed.</li>
-</ul>
+  <h3>My computer is overheating. What should I do?</h3>
+  <p>
+    Keep ventilation areas clear and place the computer in a well-ventilated
+    area. If it remains very hot or shuts down unexpectedly, have it
+    checked by a qualified technician.
+  </p>
 
-<h2>Frequently Asked Questions</h2>
+  <h3>My computer has almost no free storage.</h3>
+  <p>
+    Review temporary files, uninstall unneeded applications and back up
+    personal files before moving them. Do not delete system files manually.
+  </p>
 
-<h3>How often should I maintain my computer?</h3>
-<p>Check for software updates regularly, review storage space monthly, and clean the exterior when needed. Back up important files regularly to help protect against data loss.</p>
+  <h3>My Wi-Fi keeps disconnecting.</h3>
+  <p>
+    Check whether other devices have the same issue. Restart your router
+    if appropriate, move closer to it and check your computer's Wi-Fi
+    settings. If only one device is affected, check for network driver
+    updates from a trusted source.
+  </p>
 
-<h3>Do I need antivirus software on my computer?</h3>
-<p>A reliable security solution can help protect your computer from malware. Keep your security software updated, use trusted download sources, and avoid opening suspicious links or attachments.</p>
+  <h3>My computer will not start properly.</h3>
+  <p>
+    Check the power connection and note any error message. Disconnect
+    unnecessary accessories and try again. If you suspect hardware failure
+    or hear unusual clicking from a storage drive, seek professional help.
+  </p>
 
-<h3>Can I clean my computer with water?</h3>
-<p>No. Never spray water or cleaning liquid directly onto your computer. Turn it off and disconnect power before cleaning the exterior. Use a suitable soft, dry or slightly damp cloth, and follow the manufacturer's cleaning instructions.</p>
+  <h2>Computer Maintenance Checklist</h2>
+  <p>Use this checklist as a reminder of useful maintenance tasks.</p>
+  <ul class="checklist">
+    <li>Check operating system updates.</li>
+    <li>Review installed applications.</li>
+    <li>Check available storage space.</li>
+    <li>Confirm security protection is active.</li>
+    <li>Back up important files.</li>
+    <li>Keep ventilation areas clear.</li>
+    <li>Review startup applications.</li>
+    <li>Check that backed-up files can be opened.</li>
+  </ul>
+  <p>
+    Check security alerts regularly, back up files according to how often
+    they change, and clean your computer when dust begins to build up.
+  </p>
 
-<h3>Why is my computer getting slower over time?</h3>
-<p>Common reasons include limited storage, too many startup apps, outdated software, or insufficient memory. Check these areas before considering hardware upgrades.</p>
+  <h2>Frequently Asked Questions</h2>
 
-<h3>Are software updates really necessary?</h3>
-<p>Yes. Updates often include security fixes, bug fixes, and improvements. Whenever possible, enable automatic updates for your operating system and trusted applications.</p>
+  <h3>How often should I maintain my computer?</h3>
+  <p>
+    Check updates and security alerts regularly. Review storage and
+    startup applications every few weeks, and clean the exterior when
+    needed. Your routine depends on how often you use your computer.
+  </p>
 
-    <h2>Final Thoughts</h2>
-    <p>Good computer maintenance is mostly about consistency. Keep your software updated, protect your files, use safe browsing habits, and make sure your computer has enough ventilation. These simple steps can help you avoid many common problems.</p>
+  <h3>Do I need antivirus software?</h3>
+  <p>
+    Windows includes Windows Security on supported systems. Keep it
+    enabled and updated. If you choose another security product, use a
+    reputable provider and avoid running conflicting security tools.
+  </p>
 
-    <p><strong>Safety note:</strong> Menu names and available settings may differ by Windows version and computer manufacturer. Back up important data before making major system changes.</p>
+  <h3>Can I clean my computer with water?</h3>
+  <p>
+    Do not pour water onto your computer or spray liquid directly onto
+    it. Use a suitable microfiber cloth and follow the manufacturer's
+    cleaning instructions.
+  </p>
 
-    <a class="back" href="index.html">Back to Home</a>
-  </main>
+  <h3>Why has my computer become slower over time?</h3>
+  <p>
+    Possible causes include low storage, too many startup applications,
+    outdated software, malware, overheating or aging hardware. Check
+    these possibilities one at a time.
+  </p>
 
-  <footer>
-    &copy; 2026 TechNova Guide. All rights reserved.
-  </footer>
+  <h3>Should I shut down my computer every day?</h3>
+  <p>
+    You can shut down your computer when you finish using it. Restarting
+    periodically is also useful for completing updates and resolving
+    some temporary problems.
+  </p>
+
+  <h2>Final Thoughts</h2>
+  <p>
+    Good computer maintenance does not have to be complicated. Keeping
+    software updated, protecting files, managing storage and ensuring
+    proper airflow can help reduce many common problems.
+  </p>
+  <p>
+    Start with one or two tasks and build a routine that suits your
+    computer and how you use it.
+  </p>
+  <p>
+    <strong>Safety note:</strong> Menu names and available features can
+    vary by Windows version and computer manufacturer. Consult the
+    manufacturer's official support instructions before changing
+    system settings or opening hardware.
+  </p>
+
+  <p><a href="index.html">← Back to TechNova Guide Home</a></p>
+</main>
+
+<footer>
+  <p>
+    <a href="index.html">Home</a>
+    <a href="about.html">About</a>
+    <a href="contact.html">Contact</a>
+    <a href="privacy.html">Privacy Policy</a>
+    <a href="disclaimer.html">Disclaimer</a>
+  </p>
+  <p>© 2026 TechNova Guide. All rights reserved.</p>
+</footer>
+
 </body>
 </html>
