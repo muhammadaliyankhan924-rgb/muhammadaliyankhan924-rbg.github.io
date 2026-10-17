@@ -1,0 +1,5 @@
+
+User-agent: *
+Allow: /
+
+Sitemap: https://muhammadaliyankhan924-rgb.github.io/muhammadaliyankhan924-rbg.github.io/sitemap.xml
