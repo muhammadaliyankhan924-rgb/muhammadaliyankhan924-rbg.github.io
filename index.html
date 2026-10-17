@@ -6,6 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="TechNova Guide shares practical technology tutorials, computer tips, mobile guides, app recommendations and digital safety advice.">
   <meta name="theme-color" content="#10172a">
+  <link rel="canonical" href="https://muhammadaliyankhan924-rgb.github.io/muhammadaliyankhan924-rbg.github.io/">
   <title>TechNova Guide | Technology Made Simple</title>
   <style>
     :root {
@@ -252,7 +253,16 @@
       border-top: 1px solid #2b354c;
       font-size: 13px;
       color: #aebbd4;
+      text-align: center;
     }
+    .developer-credit {
+      margin: 8px 0 0;
+      max-width: none;
+      color: #d8e0f1;
+      font-size: 14px;
+      text-align: center;
+    }
+    .developer-credit strong { color: white; }
     @media (max-width: 800px) {
       .nav { flex-wrap: wrap; padding: 15px 18px; }
       .navlinks { gap: 14px; flex-wrap: wrap; }
@@ -315,6 +325,7 @@
         <button class="filter" data-category="computer">Computer</button>
         <button class="filter" data-category="mobile">Mobile</button>
         <button class="filter" data-category="apps">Apps</button>
+        <button class="filter" data-category="internet">Internet</button>
         <button class="filter" data-category="security">Digital safety</button>
       </div>
 
@@ -348,7 +359,8 @@
             <a class="read" href="choosing-apps.html">Read guide →</a>
           </div>
         </article>
-        <article class="card" data-category="computer">
+
+        <article class="card" data-category="internet">
           <div class="card-top" aria-hidden="true">📶</div>
           <div class="card-body">
             <div class="category">Internet</div>
@@ -357,7 +369,6 @@
             <a class="read" href="wifi-troubleshooting.html">Read guide →</a>
           </div>
         </article>
-
 
         <article class="card" data-category="security">
           <div class="card-top" aria-hidden="true">🔐</div>
@@ -369,10 +380,10 @@
           </div>
         </article>
 
-        <article class="card" data-category="computer">
+        <article class="card" data-category="security">
           <div class="card-top" aria-hidden="true">🌐</div>
           <div class="card-body">
-            <div class="category">Computer</div>
+            <div class="category">Digital safety</div>
             <h3>Tips for Safer Everyday Browsing</h3>
             <p>Learn to recognize suspicious downloads, misleading links and browser security warnings.</p>
             <a class="read" href="safe-browsing.html">Read guide →</a>
@@ -389,6 +400,7 @@
           </div>
         </article>
       </div>
+
       <p id="emptyMessage" class="empty">No matching guides found. Try another search term or category.</p>
     </section>
 
@@ -434,7 +446,10 @@
         </p>
       </div>
     </div>
-    <div class="copyright">© <span id="year">2026</span> TechNova Guide. All rights reserved.</div>
+    <div class="copyright">
+      © <span id="year">2026</span> TechNova Guide. All rights reserved.
+      <p class="developer-credit">Website Developed by <strong>Aliyan Khan</strong></p>
+    </div>
   </footer>
 
   <script>
