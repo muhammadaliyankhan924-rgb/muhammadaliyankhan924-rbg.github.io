@@ -1,4 +1,4 @@
-```html
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -36,7 +36,7 @@
     }
     h1, h2, h3 { color: #142b4d; line-height: 1.4; }
     h1 { font-size: 34px; }
-    a { color: #1769aa; }
+    main a { color: #1769aa; }
     .date { color: #68778a; font-size: 14px; }
     .tip {
       background: #edf5ff;
@@ -46,6 +46,40 @@
       margin: 22px 0;
     }
     li { margin-bottom: 8px; }
+    .affiliate-card {
+      border: 1px solid #e0e5ed;
+      border-radius: 12px;
+      padding: 22px;
+      margin: 28px 0;
+      background: #fbfcff;
+    }
+    .affiliate-card h2 { margin-top: 0; }
+    .affiliate-label {
+      display: inline-block;
+      background: #edf5ff;
+      color: #174b80;
+      padding: 4px 10px;
+      border-radius: 5px;
+      font-size: 12px;
+      font-weight: bold;
+    }
+    .buy-button {
+      display: inline-block;
+      background: #f57224;
+      color: white !important;
+      padding: 12px 22px;
+      border-radius: 7px;
+      text-decoration: none;
+      font-weight: bold;
+      margin: 8px 0;
+    }
+    .buy-button:hover { background: #d95d15; }
+    .affiliate-disclosure {
+      color: #68778a;
+      font-size: 13px;
+      line-height: 1.6;
+      margin-bottom: 0;
+    }
     footer {
       text-align: center;
       padding: 24px 12px;
@@ -120,6 +154,22 @@
       </ul>
     </div>
 
+    <h2>Recommended Product</h2>
+    <section class="affiliate-card">
+      <span class="affiliate-label">TECH ACCESSORY</span>
+      <h2>USB Wi-Fi Adapter for Computers</h2>
+      <p>Need to connect a desktop computer to Wi-Fi? A compatible USB Wi-Fi adapter can add wireless connectivity to a computer that does not have built-in Wi-Fi.</p>
+      <p><strong>Before buying:</strong> Check your computer's operating system, the adapter's supported Wi-Fi standards, and whether a driver is required.</p>
+      <a
+        class="buy-button"
+        href="https://s.click.aliexpress.com/e/_c4LocUHL"
+        target="_blank"
+        rel="sponsored nofollow noopener noreferrer"
+        aria-label="View USB Wi-Fi adapters on AliExpress"
+      >Check on AliExpress →</a>
+      <p class="affiliate-disclosure">Affiliate disclosure: TechNova Guide may earn a commission from qualifying purchases made through this affiliate link, at no extra cost to you. Product availability and prices may change on AliExpress.</p>
+    </section>
+
     <h2>Common Wi-Fi Problems and What to Try</h2>
 
     <h3>Wi-Fi Is Connected but There Is No Internet</h3>
@@ -178,4 +228,3 @@
   </footer>
 </body>
 </html>
-```
