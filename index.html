@@ -407,7 +407,32 @@
       </div>
     </section>
 
-    <section class="section" id="guides">
+ 
+<section class="section" id="account">
+  <div class="container" style="max-width:500px">
+    <h2>Create Account / Login</h2>
+    <p>Join TechNova Guide to access the platform.</p>
+
+    <input id="authEmail" type="email"
+      placeholder="Your email" required
+      style="display:block;width:100%;padding:12px;margin:12px 0">
+
+    <input id="authPassword" type="password"
+      placeholder="Password (minimum 6 characters)" required
+      style="display:block;width:100%;padding:12px;margin:12px 0">
+
+    <button onclick="signUp(
+      document.getElementById('authEmail').value,
+      document.getElementById('authPassword').value
+    )">Create Account</button>
+
+    <button onclick="logIn(
+      document.getElementById('authEmail').value,
+      document.getElementById('authPassword').value
+    )">Login</button>
+  </div>
+</section>
+<section class="section" id="guides">
       <div class="container">
         <div class="section-heading">
           <h2>Explore Our Guides</h2>
