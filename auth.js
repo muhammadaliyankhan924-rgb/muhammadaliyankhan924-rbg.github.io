@@ -1,8 +1,9 @@
-
-const supabaseClient = window.supabase.createClient(
+window.supabaseClient = window.supabase.createClient(
   "https://csbkmcilckylwjmkyhmi.supabase.co",
-  "PASTE_YOUR_PUBLISHABLE_KEY_HERE"
+  "sb_publishable_YNYm_mtuBIeE7Jmcr_tAyw_RNTl3pDE"
 );
+
+const supabaseClient = window.supabaseClient;
 
 const emailInput = document.getElementById("authEmail");
 const passwordInput = document.getElementById("authPassword");
@@ -12,10 +13,10 @@ const loginButton = document.getElementById("loginButton");
 const logoutButton = document.getElementById("logoutButton");
 
 function showStatus(message) {
-  statusBox.textContent = message;
+  if (statusBox) statusBox.textContent = message;
 }
 
-signupButton.addEventListener("click", async () => {
+signupButton?.addEventListener("click", async () => {
   const email = emailInput.value.trim();
   const password = passwordInput.value;
 
@@ -25,11 +26,7 @@ signupButton.addEventListener("click", async () => {
   }
 
   showStatus("Creating account...");
-
-  const { error } = await supabaseClient.auth.signUp({
-    email,
-    password
-  });
+  const { error } = await supabaseClient.auth.signUp({ email, password });
 
   if (error) {
     showStatus(error.message);
@@ -39,7 +36,7 @@ signupButton.addEventListener("click", async () => {
   showStatus("Signup submitted. Check your email if confirmation is required.");
 });
 
-loginButton.addEventListener("click", async () => {
+loginButton?.addEventListener("click", async () => {
   const email = emailInput.value.trim();
   const password = passwordInput.value;
 
@@ -49,11 +46,7 @@ loginButton.addEventListener("click", async () => {
   }
 
   showStatus("Logging in...");
-
-  const { error } = await supabaseClient.auth.signInWithPassword({
-    email,
-    password
-  });
+  const { error } = await supabaseClient.auth.signInWithPassword({ email, password });
 
   if (error) {
     showStatus(error.message);
@@ -61,10 +54,10 @@ loginButton.addEventListener("click", async () => {
   }
 
   showStatus("Login successful!");
-  logoutButton.hidden = false;
+  if (logoutButton) logoutButton.hidden = false;
 });
 
-logoutButton.addEventListener("click", async () => {
+logoutButton?.addEventListener("click", async () => {
   const { error } = await supabaseClient.auth.signOut();
 
   if (error) {
@@ -79,6 +72,6 @@ logoutButton.addEventListener("click", async () => {
 supabaseClient.auth.getSession().then(({ data }) => {
   if (data.session) {
     showStatus("You are logged in.");
-    logoutButton.hidden = false;
+    if (logoutButton) logoutButton.hidden = false;
   }
 });
