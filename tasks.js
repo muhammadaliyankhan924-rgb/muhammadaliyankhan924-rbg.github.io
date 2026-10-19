@@ -16,8 +16,8 @@ async function loadTasks() {
     .order("id");
 
   if (error) {
-    list.textContent = "Tasks could not load. Please try again.";
     console.error(error.message);
+    list.textContent = "Tasks could not load. Please try again.";
     return;
   }
 
@@ -28,12 +28,13 @@ async function loadTasks() {
     return;
   }
 
-  for (const task of tasks) {
+  tasks.forEach(task => {
     const card = document.createElement("article");
     const title = document.createElement("h3");
     const description = document.createElement("p");
     const reward = document.createElement("p");
-    const proof = document.createElement("textarea");
+    const question = document.createElement("p");
+    const answer = document.createElement("input");
     const button = document.createElement("button");
     const status = document.createElement("p");
 
@@ -42,14 +43,23 @@ async function loadTasks() {
     reward.textContent =
       "Reward: PKR " + Number(task.reward).toFixed(2);
 
-    proof.placeholder = "Enter your answer or proof here";
-    proof.maxLength = 2000;
-    proof.setAttribute("aria-label", "Proof for " + task.title);
-    proof.style.cssText =
-      "width:100%;min-height:90px;padding:10px;box-sizing:border-box;";
+    if (Number(task.id) === 1) {
+      question.textContent =
+        "Question: What should you do before sharing personal information online?";
+      answer.placeholder = "Type your answer";
+    } else {
+      question.textContent =
+        "Complete the task instructions, then submit your answer for review.";
+      answer.placeholder = "Enter your answer";
+    }
+
+    answer.type = "text";
+    answer.maxLength = 500;
+    answer.style.cssText =
+      "width:100%;padding:10px;box-sizing:border-box;";
 
     button.type = "button";
-    button.textContent = "Submit Task";
+    button.textContent = "Check Answer";
     button.style.cssText =
       "margin-top:10px;padding:10px 18px;cursor:pointer;";
 
@@ -57,16 +67,10 @@ async function loadTasks() {
 
     button.addEventListener("click", async () => {
       const client = window.supabaseClient;
+      const submittedAnswer = answer.value.trim();
 
-      if (!client) {
-        status.textContent = "Database connection is unavailable.";
-        return;
-      }
-
-      const answer = proof.value.trim();
-
-      if (!answer) {
-        status.textContent = "Please enter your proof first.";
+      if (!submittedAnswer) {
+        status.textContent = "Please enter your answer.";
         return;
       }
 
@@ -75,31 +79,35 @@ async function loadTasks() {
 
       if (sessionError || !sessionData.session) {
         status.textContent =
-          "Please log in using the account section above, then try again.";
+          "Please log in before checking your answer.";
+        return;
+      }
+
+      if (Number(task.id) !== 1) {
+        status.textContent =
+          "This task's answer verification is not set up yet.";
         return;
       }
 
       button.disabled = true;
-      status.textContent = "Submitting...";
+      status.textContent = "Checking your answer...";
 
       try {
-        const { error: submitError } = await client
-          .from("task_submissions")
-          .insert({
-            user_id: sessionData.session.user.id,
-            task_id: task.id,
-            proof: answer
-          });
+        const { data, error } = await client.rpc(
+          "verify_welcome_task",
+          { submitted_answer: submittedAnswer }
+        );
 
-        if (submitError) {
-          console.error(submitError.message);
+        if (error) {
+          console.error(error.message);
           status.textContent =
-            "Submission failed. Please try again or contact support.";
+            "Verification failed. Please try again.";
           return;
         }
 
-        status.textContent = "Submitted successfully for review!";
-        proof.value = "";
+        status.textContent = data === true
+          ? "Correct answer! Verification passed."
+          : "Not quite right. Please review the task and try again.";
       } catch (err) {
         console.error(err);
         status.textContent = "Something went wrong. Please try again.";
@@ -108,9 +116,13 @@ async function loadTasks() {
       }
     });
 
-    card.append(title, description, reward, proof, button, status);
+    card.append(
+      title, description, reward, question,
+      answer, button, status
+    );
+
     list.appendChild(card);
-  }
+  });
 }
 
 document.addEventListener("DOMContentLoaded", loadTasks);
