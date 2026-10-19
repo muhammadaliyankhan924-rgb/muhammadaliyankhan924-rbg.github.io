@@ -1,3 +1,4 @@
+
 async function loadTasks() {
   const list = document.getElementById("taskList");
   const client = window.supabaseClient;
@@ -35,9 +36,6 @@ async function loadTasks() {
     const reward = document.createElement("p");
     const answer = document.createElement("input");
     const verifyButton = document.createElement("button");
-    const codeArea = document.createElement("div");
-    const codeText = document.createElement("p");
-    const codeInput = document.createElement("input");
     const claimButton = document.createElement("button");
     const status = document.createElement("p");
 
@@ -55,23 +53,16 @@ async function loadTasks() {
     verifyButton.type = "button";
     verifyButton.textContent = "Verify Answer";
 
-    codeArea.hidden = true;
-    codeText.textContent = "Your completion code:";
-
-    codeInput.type = "text";
-    codeInput.placeholder = "Paste your completion code";
-    codeInput.style.cssText =
-      "width:100%;padding:10px;box-sizing:border-box;margin:8px 0;";
-
     claimButton.type = "button";
     claimButton.textContent = "Claim Reward";
 
     status.setAttribute("role", "status");
 
     verifyButton.addEventListener("click", async () => {
-      const { data: sessionData } = await client.auth.getSession();
+      const { data: sessionData, error: sessionError } =
+        await client.auth.getSession();
 
-      if (!sessionData.session) {
+      if (sessionError || !sessionData.session) {
         status.textContent = "Please log in first.";
         return;
       }
@@ -92,19 +83,20 @@ async function loadTasks() {
 
       try {
         const { data, error } = await client.rpc(
-          "generate_completion_code",
-          {
-            p_task_id: Number(task.id),
-            p_answer: answer.value.trim()
-          }
+          "verify_welcome_task",
+          { submitted_answer: answer.value.trim() }
         );
 
         if (error) throw error;
 
-        codeInput.value = data;
-        codeArea.hidden = false;
+        if (data !== true) {
+          status.textContent =
+            "Incorrect answer. Please review the task and try again.";
+          return;
+        }
+
         status.textContent =
-          "Answer verified. Copy the code and claim your reward.";
+          "Answer verified. You can now claim your reward.";
       } catch (err) {
         console.error(err);
         status.textContent =
@@ -115,17 +107,11 @@ async function loadTasks() {
     });
 
     claimButton.addEventListener("click", async () => {
-      const { data: sessionData } = await client.auth.getSession();
+      const { data: sessionData, error: sessionError } =
+        await client.auth.getSession();
 
-      if (!sessionData.session) {
+      if (sessionError || !sessionData.session) {
         status.textContent = "Please log in first.";
-        return;
-      }
-
-      const code = codeInput.value.trim();
-
-      if (!code) {
-        status.textContent = "Enter your completion code first.";
         return;
       }
 
@@ -134,24 +120,19 @@ async function loadTasks() {
 
       try {
         const { data, error } = await client.rpc(
-          "claim_task_reward",
-          { p_completion_code: code }
+          "claim_verified_task_reward",
+          { p_task_id: Number(task.id) }
         );
 
         if (error) throw error;
 
         status.textContent = data;
-        codeArea.hidden = true;
 
-        const walletStatus = document.getElementById("walletStatus");
         const refreshWalletButton =
           document.getElementById("refreshWalletButton");
 
         if (refreshWalletButton) {
           refreshWalletButton.click();
-        } else if (walletStatus) {
-          walletStatus.textContent =
-            "Reward claimed. Refresh your wallet to see the balance.";
         }
       } catch (err) {
         console.error(err);
@@ -162,14 +143,13 @@ async function loadTasks() {
       }
     });
 
-    codeArea.append(codeText, codeInput, claimButton);
     card.append(
       title,
       description,
       reward,
       answer,
       verifyButton,
-      codeArea,
+      claimButton,
       status
     );
 
