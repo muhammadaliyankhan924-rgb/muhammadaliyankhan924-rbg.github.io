@@ -5,7 +5,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>TechNova Guide - Technology Tips & Tasks</title>
-  <meta name="description" content="TechNova Guide offers practical technology guides and a task platform.">
+  <meta name="description" content="TechNova Guide offers practical technology guides, tasks, account access and wallet summaries.">
   <meta name="robots" content="index, follow">
   <meta name="theme-color" content="#101827">
   <meta name="google-adsense-account" content="ca-pub-8971291431818797">
@@ -17,7 +17,7 @@
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
     html { scroll-behavior: smooth; }
-    body { font-family: Arial, sans-serif; line-height: 1.7; color: #263244; background: #f5f7fb; }
+    body { font-family: Arial, Helvetica, sans-serif; line-height: 1.7; color: #263244; background: #f5f7fb; }
     a { color: inherit; text-decoration: none; }
     .container { width: min(1100px, 92%); margin: auto; }
     header { background: #101827; color: white; padding: 18px 0; }
@@ -49,12 +49,13 @@
     .about-content { max-width: 800px; margin: auto; text-align: center; }
     .about-content p { margin-bottom: 12px; }
     .contact-link, .action-btn { display: inline-block; margin: 12px 8px 0 0; background: #0e7490; color: white; padding: 11px 20px; border-radius: 8px; font-weight: bold; border: 0; cursor: pointer; }
-    #account { background: #eef4fa; }
+    #account, #wallet { background: #eef4fa; }
     .account-panel { max-width: 500px; margin: auto; background: white; border: 1px solid #e2e8f0; border-radius: 14px; padding: 26px; }
-    .account-panel h2 { color: #101827; margin-bottom: 8px; }
+    .account-panel h2, .account-panel h3 { color: #101827; margin-bottom: 8px; }
     .account-panel p { color: #64748b; margin-bottom: 12px; }
     .field { display: block; width: 100%; padding: 12px; margin: 12px 0; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 16px; }
     .account-status { margin-top: 14px; overflow-wrap: anywhere; }
+    #walletBalance { font-size: 30px; font-weight: bold; color: #0e7490; }
     .credits { background: linear-gradient(135deg, #172554, #101827); color: white; padding: 42px 20px; text-align: center; }
     .credits h2 { font-size: 27px; color: #67e8f9; margin-bottom: 8px; }
     .credits-intro { color: #cbd5e1; margin-bottom: 25px; }
@@ -86,6 +87,7 @@
       <a href="index.html">Home</a>
       <a href="#guides">Guides</a>
       <a href="#tasks">Tasks</a>
+      <a href="#wallet">My Wallet</a>
       <a href="#account">Login / Signup</a>
       <a href="about.html">About</a>
       <a href="contact.html">Contact</a>
@@ -131,6 +133,27 @@
     </div>
   </section>
 
+  <section class="section" id="wallet">
+    <div class="container">
+      <div class="section-heading">
+        <h2>My Wallet</h2>
+        <p>View your balance summary and recent transactions.</p>
+      </div>
+      <div class="account-panel">
+        <h3>Available Balance</h3>
+        <p id="walletBalance">PKR 0.00</p>
+        <p id="walletStatus" role="status">Loading wallet...</p>
+        <button class="action-btn" type="button" id="refreshWalletButton">Refresh Wallet</button>
+      </div>
+      <div class="section-heading" style="margin-top:30px">
+        <h2>Recent Transactions</h2>
+      </div>
+      <div id="walletHistory" class="articles">
+        <p>No transactions yet.</p>
+      </div>
+    </div>
+  </section>
+
   <section class="section" id="guides">
     <div class="container">
       <div class="section-heading">
@@ -138,11 +161,11 @@
         <p>Simple, useful information for everyday technology problems.</p>
       </div>
       <div class="filters" aria-label="Filter articles">
-        <button class="filter-btn active" data-category="all">All Guides</button>
-        <button class="filter-btn" data-category="computer">Computer</button>
-        <button class="filter-btn" data-category="smartphone">Smartphone</button>
-        <button class="filter-btn" data-category="internet">Internet</button>
-        <button class="filter-btn" data-category="security">Security</button>
+        <button type="button" class="filter-btn active" data-category="all">All Guides</button>
+        <button type="button" class="filter-btn" data-category="computer">Computer</button>
+        <button type="button" class="filter-btn" data-category="smartphone">Smartphone</button>
+        <button type="button" class="filter-btn" data-category="internet">Internet</button>
+        <button type="button" class="filter-btn" data-category="security">Security</button>
       </div>
 
       <div class="articles" id="articleGrid">
@@ -271,5 +294,16 @@
 
 <script src="auth.js"></script>
 <script src="tasks.js"></script>
+<script src="wallet.js"></script>
+<script>
+  document.getElementById("refreshWalletButton").addEventListener("click", () => {
+    if (typeof window.loadWallet === "function") {
+      window.loadWallet();
+    } else {
+      document.getElementById("walletStatus").textContent =
+        "Wallet script is not available. Please check wallet.js.";
+    }
+  });
+</script>
 </body>
 </html>
