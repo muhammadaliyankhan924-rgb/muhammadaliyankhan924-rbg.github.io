@@ -1,5 +1,5 @@
 
-const supabaseClient = window.supabase.createClient(
+const supabaseClient = window.supabaseClient = window.supabase.createClient(
   "https://csbkmcilckylwjmkyhmi.supabase.co",
   "PASTE_YOUR_PUBLISHABLE_KEY_HERE"
 );
