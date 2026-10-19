@@ -1,22 +1,22 @@
-
 async function loadTasks() {
   const list = document.getElementById("taskList");
+  const client = window.supabaseClient;
 
-  if (!list || !window.supabaseClient) {
+  if (!list || !client) {
     if (list) list.textContent = "Tasks system is not ready.";
     return;
   }
 
   list.textContent = "Loading tasks...";
 
-  const { data: tasks, error } = await window.supabaseClient
+  const { data: tasks, error } = await client
     .from("tasks")
     .select("id, title, description, reward")
     .eq("is_active", true)
     .order("id");
 
   if (error) {
-    console.error(error.message);
+    console.error(error);
     list.textContent = "Tasks could not load. Please try again.";
     return;
   }
@@ -24,7 +24,7 @@ async function loadTasks() {
   list.replaceChildren();
 
   if (!tasks || tasks.length === 0) {
-    list.textContent = "No tasks available right now.";
+    list.textContent = "No tasks available.";
     return;
   }
 
@@ -33,9 +33,12 @@ async function loadTasks() {
     const title = document.createElement("h3");
     const description = document.createElement("p");
     const reward = document.createElement("p");
-    const question = document.createElement("p");
     const answer = document.createElement("input");
-    const button = document.createElement("button");
+    const verifyButton = document.createElement("button");
+    const codeArea = document.createElement("div");
+    const codeText = document.createElement("p");
+    const codeInput = document.createElement("input");
+    const claimButton = document.createElement("button");
     const status = document.createElement("p");
 
     title.textContent = task.title;
@@ -43,82 +46,131 @@ async function loadTasks() {
     reward.textContent =
       "Reward: PKR " + Number(task.reward).toFixed(2);
 
-    if (Number(task.id) === 1) {
-      question.textContent =
-        "Question: What should you do before sharing personal information online?";
-      answer.placeholder = "Type your answer";
-    } else {
-      question.textContent =
-        "Complete the task instructions, then submit your answer for review.";
-      answer.placeholder = "Enter your answer";
-    }
-
     answer.type = "text";
+    answer.placeholder = "Enter your task answer";
     answer.maxLength = 500;
     answer.style.cssText =
-      "width:100%;padding:10px;box-sizing:border-box;";
+      "width:100%;padding:10px;box-sizing:border-box;margin:8px 0;";
 
-    button.type = "button";
-    button.textContent = "Check Answer";
-    button.style.cssText =
-      "margin-top:10px;padding:10px 18px;cursor:pointer;";
+    verifyButton.type = "button";
+    verifyButton.textContent = "Verify Answer";
+
+    codeArea.hidden = true;
+    codeText.textContent = "Your completion code:";
+
+    codeInput.type = "text";
+    codeInput.placeholder = "Paste your completion code";
+    codeInput.style.cssText =
+      "width:100%;padding:10px;box-sizing:border-box;margin:8px 0;";
+
+    claimButton.type = "button";
+    claimButton.textContent = "Claim Reward";
 
     status.setAttribute("role", "status");
 
-    button.addEventListener("click", async () => {
-      const client = window.supabaseClient;
-      const submittedAnswer = answer.value.trim();
+    verifyButton.addEventListener("click", async () => {
+      const { data: sessionData } = await client.auth.getSession();
 
-      if (!submittedAnswer) {
-        status.textContent = "Please enter your answer.";
-        return;
-      }
-
-      const { data: sessionData, error: sessionError } =
-        await client.auth.getSession();
-
-      if (sessionError || !sessionData.session) {
-        status.textContent =
-          "Please log in before checking your answer.";
+      if (!sessionData.session) {
+        status.textContent = "Please log in first.";
         return;
       }
 
       if (Number(task.id) !== 1) {
         status.textContent =
-          "This task's answer verification is not set up yet.";
+          "Verification for this task is not configured yet.";
         return;
       }
 
-      button.disabled = true;
-      status.textContent = "Checking your answer...";
+      if (!answer.value.trim()) {
+        status.textContent = "Please enter your answer.";
+        return;
+      }
+
+      verifyButton.disabled = true;
+      status.textContent = "Verifying answer...";
 
       try {
         const { data, error } = await client.rpc(
-          "verify_welcome_task",
-          { submitted_answer: submittedAnswer }
+          "generate_completion_code",
+          {
+            p_task_id: Number(task.id),
+            p_answer: answer.value.trim()
+          }
         );
 
-        if (error) {
-          console.error(error.message);
-          status.textContent =
-            "Verification failed. Please try again.";
-          return;
-        }
+        if (error) throw error;
 
-        status.textContent = data === true
-          ? "Correct answer! Verification passed."
-          : "Not quite right. Please review the task and try again.";
+        codeInput.value = data;
+        codeArea.hidden = false;
+        status.textContent =
+          "Answer verified. Copy the code and claim your reward.";
       } catch (err) {
         console.error(err);
-        status.textContent = "Something went wrong. Please try again.";
+        status.textContent =
+          err.message || "Verification failed. Please try again.";
       } finally {
-        button.disabled = false;
+        verifyButton.disabled = false;
       }
     });
 
+    claimButton.addEventListener("click", async () => {
+      const { data: sessionData } = await client.auth.getSession();
+
+      if (!sessionData.session) {
+        status.textContent = "Please log in first.";
+        return;
+      }
+
+      const code = codeInput.value.trim();
+
+      if (!code) {
+        status.textContent = "Enter your completion code first.";
+        return;
+      }
+
+      claimButton.disabled = true;
+      status.textContent = "Claiming reward...";
+
+      try {
+        const { data, error } = await client.rpc(
+          "claim_task_reward",
+          { p_completion_code: code }
+        );
+
+        if (error) throw error;
+
+        status.textContent = data;
+        codeArea.hidden = true;
+
+        const walletStatus = document.getElementById("walletStatus");
+        const refreshWalletButton =
+          document.getElementById("refreshWalletButton");
+
+        if (refreshWalletButton) {
+          refreshWalletButton.click();
+        } else if (walletStatus) {
+          walletStatus.textContent =
+            "Reward claimed. Refresh your wallet to see the balance.";
+        }
+      } catch (err) {
+        console.error(err);
+        status.textContent =
+          err.message || "Reward claim failed. Please try again.";
+      } finally {
+        claimButton.disabled = false;
+      }
+    });
+
+    codeArea.append(codeText, codeInput, claimButton);
     card.append(
-      title, description, reward, question,
-      answer, button, status
+      title,
+      description,
+      reward,
+      answer,
+      verifyButton,
+      codeArea,
+      status
     );
 
     list.appendChild(card);
