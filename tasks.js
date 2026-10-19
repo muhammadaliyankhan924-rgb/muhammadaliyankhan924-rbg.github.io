@@ -2,7 +2,12 @@
 async function loadTasks() {
   const list = document.getElementById("taskList");
 
-  if (!list || !window.supabaseClient) return;
+  if (!list || !window.supabaseClient) {
+    if (list) list.textContent = "Tasks system is not ready.";
+    return;
+  }
+
+  list.textContent = "Loading tasks...";
 
   const { data, error } = await window.supabaseClient
     .from("tasks")
@@ -10,7 +15,7 @@ async function loadTasks() {
     .eq("is_active", true);
 
   if (error) {
-    list.textContent = "Tasks load nahi ho sake. Please try again.";
+    list.textContent = "Tasks could not load. Please try again.";
     console.error(error.message);
     return;
   }
@@ -18,7 +23,7 @@ async function loadTasks() {
   list.replaceChildren();
 
   if (!data || data.length === 0) {
-    list.textContent = "Abhi koi task available nahi hai.";
+    list.textContent = "No tasks available right now.";
     return;
   }
 
@@ -36,3 +41,5 @@ async function loadTasks() {
     list.appendChild(card);
   });
 }
+
+document.addEventListener("DOMContentLoaded", loadTasks);
