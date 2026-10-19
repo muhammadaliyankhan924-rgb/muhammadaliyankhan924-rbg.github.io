@@ -8,15 +8,14 @@
   <title>TechNova Guide - Simple Technology Tips</title>
   <meta name="description" content="TechNova Guide provides practical guides for computer maintenance, smartphone safety, Wi-Fi troubleshooting, passwords, apps and safe browsing.">
   <meta name="robots" content="index, follow">
+  <meta name="theme-color" content="#101827">
 
-  <!-- Google AdSense account verification -->
+  <!-- Google AdSense Account Verification -->
   <meta name="google-adsense-account" content="ca-pub-8971291431818797">
 
-  <!-- Google AdSense script -->
+  <!-- Google AdSense Script -->
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8971291431818797"
        crossorigin="anonymous"></script>
-
-  <meta name="theme-color" content="#101827">
 
   <style>
     * {
@@ -254,10 +253,68 @@
       font-weight: bold;
     }
 
-    footer {
-      background: #101827;
+    /* Developer and credits section */
+    .credits {
+      background: linear-gradient(135deg, #172554, #101827);
+      color: white;
+      padding: 42px 20px;
+      text-align: center;
+    }
+
+    .credits h2 {
+      font-size: 27px;
+      color: #67e8f9;
+      margin-bottom: 8px;
+    }
+
+    .credits-intro {
       color: #cbd5e1;
-      padding: 30px 0;
+      margin-bottom: 25px;
+    }
+
+    .credits-grid {
+      display: flex;
+      justify-content: center;
+      align-items: stretch;
+      flex-wrap: wrap;
+      gap: 16px;
+      max-width: 850px;
+      margin: auto;
+    }
+
+    .credit-card {
+      width: min(240px, 100%);
+      padding: 22px 18px;
+      background: rgba(255, 255, 255, 0.07);
+      border: 1px solid rgba(103, 232, 249, 0.35);
+      border-radius: 14px;
+    }
+
+    .credit-icon {
+      font-size: 32px;
+      margin-bottom: 8px;
+    }
+
+    .credit-card h3 {
+      color: white;
+      font-size: 19px;
+      margin-bottom: 5px;
+    }
+
+    .credit-card p {
+      color: #cbd5e1;
+      font-size: 14px;
+    }
+
+    .developer-card {
+      background: rgba(8, 145, 178, 0.18);
+      border-color: #22d3ee;
+    }
+
+    footer {
+      background: #0b1120;
+      color: #cbd5e1;
+      padding: 25px 0;
       text-align: center;
     }
 
@@ -306,6 +363,10 @@
 
       .section {
         padding: 40px 0;
+      }
+
+      .credits {
+        padding: 35px 15px;
       }
     }
   </style>
@@ -438,6 +499,36 @@
           Explore our guides and contact us if you have questions or feedback.
         </p>
         <a href="about.html" class="contact-link">Learn More About Us</a>
+      </div>
+    </section>
+
+    <!-- Developer and family credits -->
+    <section class="credits" id="credits">
+      <h2>Meet Our People ❤️</h2>
+      <p class="credits-intro">
+        The people behind TechNova Guide
+      </p>
+
+      <div class="credits-grid">
+
+        <div class="credit-card developer-card">
+          <div class="credit-icon" aria-hidden="true">💻</div>
+          <h3>Aliyan Khan</h3>
+          <p>Website Developer</p>
+        </div>
+
+        <div class="credit-card">
+          <div class="credit-icon" aria-hidden="true">❤️</div>
+          <h3>Ali Bhai</h3>
+          <p>Special Thanks</p>
+        </div>
+
+        <div class="credit-card">
+          <div class="credit-icon" aria-hidden="true">💖</div>
+          <h3>Marwa Behan</h3>
+          <p>Special Thanks</p>
+        </div>
+
       </div>
     </section>
   </main>
