@@ -3,10 +3,9 @@ async function loadWallet() {
   const balanceBox = document.getElementById("walletBalance");
   const statusBox = document.getElementById("walletStatus");
   const historyBox = document.getElementById("walletHistory");
+  const client = window.supabaseClient;
 
   if (!balanceBox || !statusBox || !historyBox) return;
-
-  const client = window.supabaseClient;
 
   if (!client) {
     balanceBox.textContent = "Unavailable";
@@ -14,14 +13,13 @@ async function loadWallet() {
     return;
   }
 
-  balanceBox.textContent = "Loading...";
-  statusBox.textContent = "";
-
   try {
     const { data: sessionData, error: sessionError } =
       await client.auth.getSession();
 
-    if (sessionError || !sessionData.session) {
+    if (sessionError) throw sessionError;
+
+    if (!sessionData.session) {
       balanceBox.textContent = "PKR 0.00";
       statusBox.textContent = "Please log in to view your wallet.";
       historyBox.replaceChildren();
@@ -38,8 +36,7 @@ async function loadWallet() {
     balanceBox.textContent =
       "PKR " + Number(data?.balance ?? 0).toFixed(2);
 
-    statusBox.textContent =
-      "Your displayed balance uses approved wallet transactions.";
+    statusBox.textContent = "Your wallet balance.";
 
     const { data: transactions, error: historyError } = await client
       .from("wallet_transactions")
@@ -50,16 +47,12 @@ async function loadWallet() {
     historyBox.replaceChildren();
 
     if (historyError) {
-      const message = document.createElement("p");
-      message.textContent = "Transaction history is unavailable.";
-      historyBox.appendChild(message);
+      historyBox.textContent = "Transaction history is unavailable.";
       return;
     }
 
-    if (!transactions || transactions.length === 0) {
-      const message = document.createElement("p");
-      message.textContent = "No transactions yet.";
-      historyBox.appendChild(message);
+    if (!transactions?.length) {
+      historyBox.textContent = "No transactions yet.";
       return;
     }
 
@@ -83,8 +76,7 @@ async function loadWallet() {
   } catch (error) {
     console.error("Wallet loading error:", error);
     balanceBox.textContent = "Unavailable";
-    statusBox.textContent =
-      "Could not load wallet. Please check your database setup.";
+    statusBox.textContent = "Could not load wallet.";
   }
 }
 
@@ -96,43 +88,41 @@ async function submitWithdrawal(event) {
   const form = document.getElementById("withdrawalForm");
   const statusBox = document.getElementById("withdrawalStatus");
   const submitButton = document.getElementById("withdrawalSubmitButton");
-
-  if (!form || !statusBox || !submitButton) return;
-
   const client = window.supabaseClient;
 
-  if (!client) {
-    statusBox.textContent = "Wallet connection is not ready.";
-    return;
-  }
+  if (!form || !statusBox || !submitButton || !client) return;
 
   const method = document.getElementById("withdrawalMethod").value;
-  const accountName = document.getElementById("withdrawalName").value.trim();
-  const accountNumber = document.getElementById("withdrawalNumber").value.trim();
-  const amount = Number(document.getElementById("withdrawalAmount").value);
+  const accountName =
+    document.getElementById("withdrawalName").value.trim();
+  const accountNumber =
+    document.getElementById("withdrawalNumber").value.trim();
+  const amount =
+    Number(document.getElementById("withdrawalAmount").value);
 
   if (!["Easypaisa", "JazzCash"].includes(method)) {
-    statusBox.textContent = "Please choose Easypaisa or JazzCash.";
+    statusBox.textContent = "Choose Easypaisa or JazzCash.";
     return;
   }
 
   if (!accountName || accountName.length > 100) {
-    statusBox.textContent = "Please enter a valid account holder name.";
+    statusBox.textContent = "Enter a valid account holder name.";
     return;
   }
 
   if (!/^[0-9+\-\s]{10,20}$/.test(accountNumber)) {
-    statusBox.textContent = "Please enter a valid mobile account number.";
+    statusBox.textContent = "Enter a valid mobile account number.";
     return;
   }
 
-  if (!Number.isFinite(amount) || amount <= 0) {
-    statusBox.textContent = "Please enter a valid withdrawal amount.";
+  if (!Number.isFinite(amount) || amount < 500 || amount > 10000) {
+    statusBox.textContent =
+      "Minimum withdrawal is PKR 500 and maximum is PKR 10,000.";
     return;
   }
 
   submitButton.disabled = true;
-  statusBox.textContent = "Submitting your request...";
+  statusBox.textContent = "Submitting your withdrawal request...";
 
   try {
     const { data: sessionData, error: sessionError } =
@@ -143,7 +133,7 @@ async function submitWithdrawal(event) {
     const session = sessionData.session;
 
     if (!session) {
-      statusBox.textContent = "Please log in before requesting a withdrawal.";
+      statusBox.textContent = "Please log in first.";
       return;
     }
 
@@ -154,11 +144,8 @@ async function submitWithdrawal(event) {
 
     if (walletError) throw walletError;
 
-    const balance = Number(wallet?.balance ?? 0);
-
-    if (amount > balance) {
-      statusBox.textContent =
-        "Your requested amount is greater than your displayed balance.";
+    if (amount > Number(wallet?.balance ?? 0)) {
+      statusBox.textContent = "Insufficient wallet balance.";
       return;
     }
 
@@ -166,22 +153,28 @@ async function submitWithdrawal(event) {
       .from("withdrawal_requests")
       .insert({
         user_id: session.user.id,
-        method: method,
+        method,
         account_name: accountName,
         account_number: accountNumber,
-        amount: amount
+        amount
       });
 
     if (insertError) throw insertError;
 
-    statusBox.textContent =
-      "Withdrawal request submitted successfully. It is pending review; no payment has been sent yet.";
-
     form.reset();
+    statusBox.textContent = "Request received. Please wait 5 seconds...";
+
+    await new Promise(resolve => setTimeout(resolve, 5000));
+
+    statusBox.textContent =
+      "Withdrawal Is Under Review. Your request has been received. " +
+      "Payment is targeted within 24 hours after review.";
+
+    await loadWallet();
   } catch (error) {
     console.error("Withdrawal submission error:", error);
     statusBox.textContent =
-      "Request could not be submitted. Please check your login and database permissions, then try again.";
+      error.message || "Withdrawal request failed. Please try again.";
   } finally {
     submitButton.disabled = false;
   }
